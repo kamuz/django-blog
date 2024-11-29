@@ -5,7 +5,6 @@ from .models import Post
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug', 'author', 'publish', 'status', 'sticked_post']
-    list_display_links = ['author']
     list_filter = ['status', 'created', 'publish', 'author']
     list_editable = ['sticked_post', 'status']
     search_fields = ['title', 'body']
