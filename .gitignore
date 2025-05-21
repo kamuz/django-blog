@@ -2,3 +2,4 @@ __pycache__
 myenv/
 *.sublime-project
 *.sublime-workspace
+.env
