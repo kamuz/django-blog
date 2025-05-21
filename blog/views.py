@@ -22,39 +22,53 @@ def post_detail(request, year, month, day, post):
     return render( request, 'blog/post/detail.html', {'post': post } )
 
 def post_share(request, post_id):
-    # Retrieve post by id
+    # Retrieve the post by its ID, ensuring it is published
     post = get_object_or_404(
         Post,
         id=post_id,
         status=Post.Status.PUBLISHED
     )
-    sent = False
+
+    sent = False  # Track if the email was sent
+
     if request.method == 'POST':
-        # Form was submitted
+        # If form was submitted via POST
         form = EmailPostForm(request.POST)
+
         if form.is_valid():
-            # Form fields passed validation
-            cd = form.cleaned_data
+            # If form data is valid
+            cd = form.cleaned_data  # Get validated and cleaned data
+
+            # Build full URL to the post
             post_url = request.build_absolute_uri(
                 post.get_absolute_url()
             )
+
+            # Create email subject and message
             subject = (
                 f"{cd['name']} ({cd['email']}) "
                 f"recommends you read {post.title}"
             )
             message = (
                 f"Read {post.title} at {post_url}\n\n"
-                f"{cd['name']}\'s comments: {cd['comments']}"
+                f"{cd['name']}'s comments: {cd['comments']}"
             )
+
+            # Send the email
             send_mail(
                 subject=subject,
                 message=message,
-                from_email=None,
+                from_email=None,  # Use DEFAULT_FROM_EMAIL
                 recipient_list=[cd['to']]
             )
-            sent = True
+
+            sent = True  # Mark email as sent
+
     else:
+        # If GET request, show empty form
         form = EmailPostForm()
+
+    # Render the share page with the post, form, and sent flag
     return render(
         request,
         'blog/post/share.html',
