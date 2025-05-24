@@ -106,7 +106,7 @@ input[type=submit] {
 pre {
     padding: 10px;
     background-color: #eee;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 pre code {
