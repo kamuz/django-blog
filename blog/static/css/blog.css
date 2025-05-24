@@ -47,13 +47,11 @@ p.date {
     margin-right: 10px;
 }
 
-/* pagination */
 .pagination {
     margin: 40px 0;
     font-weight: bold;
 }
 
-/* forms */
 label {
     float: left;
     clear: both;
@@ -88,7 +86,6 @@ input[type=submit] {
     padding-left: 10px;
 }
 
-/* comments */
 .comment {
     padding: 10px;
 }
