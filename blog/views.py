@@ -6,13 +6,25 @@ from django.views.decorators.http import require_POST
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from django.db.models import Q
 
 def post_list(request, tag_slug=None):
+    # Show all posts by default
     post_list = Post.published.all()
+
+    # Search by title and body
+    query = request.GET.get('query')
+    if query:
+        post_list = post_list.filter(
+            Q(title__icontains=query) | Q(body__icontains=query)
+        )
+
+    # Filter by tag
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         post_list = post_list.filter(tags__in=[tag])
+
     # Pagination with 3 posts per page
     paginator = Paginator(post_list, 3)
     page_number = request.GET.get('page', 1)
@@ -24,12 +36,14 @@ def post_list(request, tag_slug=None):
     except EmptyPage:
         # If page_number is out of range get last page of results
         posts = paginator.page(paginator.num_pages)
+
     return render(
         request,
         'blog/post/list.html',
         {
             'posts': posts,
-            'tag': tag
+            'tag': tag,
+            'query': query,
         }
     )
 

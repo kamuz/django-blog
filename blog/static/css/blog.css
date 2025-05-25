@@ -115,3 +115,13 @@ code {
     display: inline-block;
     padding: 0 2px;
 }
+
+.search button[type="submit"] {
+    background-color: #00abff;
+    color: #fff;
+    border: 3px solid #00abff;
+}
+
+.search input {
+    outline: none;
+}
