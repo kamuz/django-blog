@@ -119,9 +119,15 @@ code {
 .search button[type="submit"] {
     background-color: #00abff;
     color: #fff;
-    border: 3px solid #00abff;
+    border: none;
+    height: 25px;
+    display: inline-block;
+    cursor: pointer;
+    line-height: 25px;
 }
 
 .search input {
     outline: none;
+    height: 25px;
+    line-height: 25px;
 }
